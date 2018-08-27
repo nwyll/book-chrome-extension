@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "Book Watch",
+  "version": "1.0",
+  "description": "Never miss a new release again!",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "search16.png",
+      "32": "search32.png",
+      "64": "search64.png",
+      "128": "search128.png"
+    }
+  },
+  "icons": {
+    "16": "search16.png",
+    "32": "search32.png",
+    "64": "search64.png",
+    "128": "search128.png"
+  },
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+  "permissions": [
+    "storage",
+    "alarms",
+    "storage",
+    "background"
+  ]
+}
