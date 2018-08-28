@@ -2,13 +2,11 @@ const buildBookItemTemplate = function(coverImage, title, publishedDate) {
   const template = 
       `<div class="book">`
     + `   <img src=${coverImage} alt="${title}" class="cover-img"/>`
-    + `   <div class="published-date">${publishedDate}</div>`
-    + `   <button type="button" 
-            onclick="handleAddToWatchList(event)"
-            data-title="${title}"
-            data-publishedDate=${publishedDate}>
-              Add to Watch List!
-          </button>`
+    + `   <h5 class="published-date">${publishedDate}</h5>`
+    + `   <button type="button"
+                  class="add-to-list" 
+                  data-title="${title}" 
+                  data-published=${publishedDate}>Add To Watch List</button>`
     + `</div>`
   ;
 
@@ -43,6 +41,12 @@ const handleSearch = function() {
         });
       });
   }
+
+  let addToList = document.getElementsByClassName('add-to-list');
+  console.log(addToList);
+
+  
+  return false;
 };
 
 const createAlarm = function(title, publishedDate) {
@@ -53,22 +57,24 @@ const createAlarm = function(title, publishedDate) {
     //when: Date.parse(publishedDate)});
 };
 
-const handleAddToWatchList = function(event) {
-  console.log("add to watch list clicked")
-  const title         = event.target.getAttribute('data-title'),
-        publishedDate = event.target.getAttribute('data-publishedDate');
-
-  createAlarm(title, publishedDate);
+const handleAddToWatchList = function() {
+ 
 };
 
 $(document).ready(function(){
   $("#searchForm").submit(handleSearch);
 
+  $("#content").on("click", "button", function(event) {
+    let publishedDate = $(this).data('published'),
+        title         = $(this).data('title');
+  //         
+    console.log({title}, {publishedDate});
+
+    // createAlarm(title, publishedDate);
+  });
+
   return false; 
 });
-
-
-
 
 //   // Save it using the Chrome extension storage API.
 //   chrome.storage.sync.set({'value': theValue}, function() {
