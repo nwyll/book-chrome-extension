@@ -42,23 +42,18 @@ const handleSearch = function() {
       });
   }
 
-  let addToList = document.getElementsByClassName('add-to-list');
-  console.log(addToList);
-
-  
   return false;
 };
 
-const createAlarm = function(title, publishedDate) {
-  console.log("alarm created", {title}, {publishedDate})
+// const createAlarm = function(title, publishedDate) {
+//   console.log("alarm created with:", {title}, {publishedDate})
 
-  chrome.alarms.create(title, {
-    when: Date.now() + 1000 });
-    //when: Date.parse(publishedDate)});
-};
+//   chrome.alarms.create(title, {delayInMinutes: 0.1});
+//     //when: Date.parse(publishedDate)});
+// };
 
 const handleAddToWatchList = function() {
- 
+
 };
 
 $(document).ready(function(){
@@ -67,11 +62,13 @@ $(document).ready(function(){
   $("#content").on("click", "button", function(event) {
     let publishedDate = $(this).data('published'),
         title         = $(this).data('title');
-  //         
-    console.log({title}, {publishedDate});
-
+    
+    chrome.alarms.create({delayInMinutes: 1});
+    
     // createAlarm(title, publishedDate);
   });
+
+  
 
   return false; 
 });
