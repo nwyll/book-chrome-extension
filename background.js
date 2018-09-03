@@ -1,17 +1,16 @@
-chrome.alarms.onAlarm.addListener(function (alarm) {
-  alert('Got an alarm!', alarm);
+/* eslint-disable */
 
-  //test notification
-  let options = {
+chrome.alarms.onAlarm.addListener(function (alarm) {
+  const bookTitle = alarm.name;
+
+  const options = {
     type: 'basic',
-    title: 'Test Title',
-    message: " this is a test notification",
-    iconUrl: "search32.png"
+    title: 'Book Watch',
+    message: `Don't forget ${bookTitle} comes out today!`,
+    iconUrl: 'search32.png'
   };
+
   chrome.notifications.create(options, function () {
     
   });
 });
-
-
-
