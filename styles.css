@@ -1,0 +1,11 @@
+.popup-wrapper {
+  margin: 10px;
+  overflow: scroll;
+  width: 280px;
+  height: 350px;
+}
+
+.book-item {
+  display: flex;
+  justify-content: space-between;
+}

@@ -72,12 +72,25 @@ const saveToWatchList = function (id, title, publishedDate) {
 const displayWatchList = function () {
   chrome.storage.sync.get(null, function (result) {
     console.log(result);
-    //result is an object
-    //map over result and for each individual key list value.title and value.publishDate
-
+    
     $('#content').empty();
 
-    console.log(Object.values(result));
+    const books = Object.values(result);
+
+    books.map((item, index) => {
+      const id = index,
+            title = item.title,
+            publishedDate = item.publishedDate;
+
+      const bookTemplate = 
+          '<div class="book-item">'
+        + `   <h3><span>${title}</span></h3><h5>${publishedDate}</h5>`
+        + '</div>'
+      ;
+
+      $('#content').append(bookTemplate);
+    });
+   
   });
 
 };
