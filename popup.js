@@ -1,15 +1,15 @@
-/* eslint-disable */
-
 const buildBookItemTemplate = function (coverImage, title, publishedDate, id) {
   const template = 
       '<div class="book">'
     + `   <img src=${coverImage} alt="${title}" class="cover-img"/>`
     + `   <h5 class="published-date">${publishedDate}</h5>`
     + `   <button type="button"
-                  class="add-to-list" 
-                  data-title="${title}" 
-                  data-published=${publishedDate}
-                  data-id=${id}>Add To Watch List</button>`
+            class="add-to-list" 
+            data-title="${title}" 
+            data-published=${publishedDate}
+            data-id=${id}
+            data-cover=${coverImage}>Add To Watch List
+          </button>`
     + '</div>'
   ;
 
@@ -32,6 +32,7 @@ const handleSearch = function () {
       .then(json => {
         let { items } = json;
 
+        console.log("----Items Returned From Google Books API----");
         console.log(items);
       
         items.map((item) => {
@@ -50,49 +51,60 @@ const handleSearch = function () {
   return false;
 };
 
-const createAlarm = function (title, publishedDate) {
-  alert(`New notification created for ${title} coming on ${publishedDate}`);
+const createAlarm = function (id, title, publishedDate) {
+  alert(`A new notification was created for ${title} coming out ${publishedDate}`);
+  chrome.alarms.create(id, {when: Date.parse(publishedDate)});
 
-  chrome.alarms.create(title, {when: Date.parse(publishedDate)});
-
+  console.log("----Get All Alarms----");
   chrome.alarms.getAll(function(alarms){
     console.log(alarms);
   });
 };
 
-const saveToWatchList = function (id, title, publishedDate) {
-  console.log(id, title, publishedDate);
-
-  chrome.storage.sync.set({[id]: { title, publishedDate }}, function() {
-    // Notify that we saved.
-    alert('Settings saved');
-  });
+const saveToWatchList = function (id, title, publishedDate, coverImage) {
+  //console.log(id, title, publishedDate, coverImage);
+  chrome.storage.sync.set({[id]: { title, publishedDate, coverImage }});
 };
 
 const displayWatchList = function () {
   chrome.storage.sync.get(null, function (result) {
-    console.log(result);
-    
+    // console.log(result);
+    //console.log(Object.entries(result));
+
     $('#content').empty();
 
-    const books = Object.values(result);
+    const booksArray = Object.entries(result);
 
-    books.map((item, index) => {
-      const id = index,
-            title = item.title,
-            publishedDate = item.publishedDate;
+    booksArray.map((subAarray) => {
+      const id = subAarray[0],             
+            title = subAarray[1].title,
+            publishedDate = subAarray[1].publishedDate,
+            coverImage = subAarray[1].coverImage;
 
-      const bookTemplate = 
+      const bookListTemplate = 
           '<div class="book-item">'
-        + `   <h3><span>${title}</span></h3><h5>${publishedDate}</h5>`
+        + `   <h3>
+                <img src=${coverImage} alt="${title}" class="watch-list-cover">
+                <span>${title}</span>
+              </h3>
+              <h5>${publishedDate}</h5>`
+        + `   <button type="button"
+                class="remove-from-list" 
+                data-title="${title}" 
+                data-published=${publishedDate}
+                data-id=${id}>Remove
+              </button>`
         + '</div>'
       ;
 
-      $('#content').append(bookTemplate);
+      $('#content').append(bookListTemplate);
     });
-   
   });
+};
 
+const removeFromWatchList = function (id) {
+  //remove item from chrome storage
+  //chrome.storage.sync.remove(string of the key to remove - id, callback);
 };
 
 $(document).ready(function () {
@@ -101,23 +113,18 @@ $(document).ready(function () {
   $('#content').on('click', 'button', function (event) {
     const publishedDate = $(this).data('published'),
           title         = $(this).data('title'),
-          id            = $(this).data('id');
+          id            = $(this).data('id'),
+          coverImage    = $(this).data('cover');
         
-    createAlarm(title, publishedDate);
-    saveToWatchList(id, title, publishedDate);
+    createAlarm(id, title, publishedDate);
+    saveToWatchList(id, title, publishedDate, coverImage);
   });
 
   $('#watchList').click(function () {
     displayWatchList();
   });
 
+
+
   return false; 
 });
-
-//   // Save it using the Chrome extension storage API.
-//   chrome.storage.sync.set({'value': theValue}, function() {
-//     // Notify that we saved.
-//     message('Settings saved');
-//   });
-// }
-

@@ -1,11 +1,16 @@
-.popup-wrapper {
+.container {
   margin: 10px;
   overflow: scroll;
-  width: 280px;
+  width: 300px;
   height: 350px;
 }
 
 .book-item {
   display: flex;
   justify-content: space-between;
+}
+
+.watch-list-cover {
+  width: 64px;
+  height: 95px;
 }
