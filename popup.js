@@ -1,10 +1,11 @@
-//filter year-month-date to month
-const filterDate = function (dateStr) {
+//filter year-month-date to month-day-year
+const filterDate = (dateStr) => {
   let date = new Date(dateStr);
   return date.toLocaleDateString();
 };
 
-const buildBookItemTemplate = function (coverImage, title, publishedDate, id) {
+//build book tile template for search results
+const buildBookItemTemplate = (coverImage, title, publishedDate, id) => {
   const template = 
       '<div class="book">'
     + `   <img src=${coverImage} alt="${title}" class="cover-img"/>`
@@ -22,7 +23,8 @@ const buildBookItemTemplate = function (coverImage, title, publishedDate, id) {
   return template; 
 }
 
-const handleSearch = function () {
+//get search results from Google API and displays results
+const handleSearch = () => {
   event.preventDefault();
   $('#content').empty();
 
@@ -49,8 +51,6 @@ const handleSearch = function () {
                 imageLinks = item.volumeInfo.imageLinks,
                 coverImage = imageLinks !== undefined ? imageLinks.thumbnail : 'notebook.png';
 
-  console.log(publishedDate);
-
           let bookItem = buildBookItemTemplate(coverImage, title, publishedDate, id);
            $('#content').append(bookItem);
         });
@@ -59,7 +59,8 @@ const handleSearch = function () {
   return false;
 };
 
-const createAlarm = function (id, title, publishedDate) {
+//creates new chrome alarm when a new book is added to the watch list
+const createAlarm = (id, title, publishedDate) => {
   alert(`A new notification was created for ${title} coming out ${publishedDate}`);
   chrome.alarms.create(id, {when: Date.parse(publishedDate)});
 
@@ -69,12 +70,14 @@ const createAlarm = function (id, title, publishedDate) {
   });
 };
 
-const saveToWatchList = function (id, title, publishedDate, coverImage) {
+//saves book info to chrome storage for the watch list
+const saveToWatchList = (id, title, publishedDate, coverImage) => {
   //console.log(id, title, publishedDate, coverImage);
   chrome.storage.sync.set({[id]: { title, publishedDate, coverImage }});
 };
 
-const displayWatchList = function () {
+// displays the user's watch list when they click on 'My Watch List'
+const displayWatchList = () => {
   chrome.storage.sync.get(null, function (result) {
     // console.log(result);
     //console.log(Object.entries(result));
@@ -110,7 +113,8 @@ const displayWatchList = function () {
   });
 };
 
-const removeFromWatchList = function (id) {
+//removes book obj from chrome storage 
+const removeFromWatchList = (id) => {
   //remove item from chrome storage
   //chrome.storage.sync.remove(string of the key to remove - id, callback);
 };
