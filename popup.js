@@ -26,7 +26,8 @@ const buildBookItemTemplate = (coverImage, title, publishedDate, id) => {
 //get search results from Google API and displays results
 const handleSearch = () => {
   event.preventDefault();
-  $('#content').empty();
+  $('#results').empty();
+  $('#myBooks').empty();
 
   const BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
   const OPTIONS = '&orderBy=newest'
@@ -40,8 +41,8 @@ const handleSearch = () => {
       .then(json => {
         let { items } = json;
 
-        console.log("----Items Returned From Google Books API----");
-        console.log(items);
+// console.log("----Items Returned From Google Books API----");
+// console.log(items);
       
         items.map((item) => {
           const id = item.id,
@@ -52,7 +53,7 @@ const handleSearch = () => {
                 coverImage = imageLinks !== undefined ? imageLinks.thumbnail : 'notebook.png';
 
           let bookItem = buildBookItemTemplate(coverImage, title, publishedDate, id);
-           $('#content').append(bookItem);
+           $('#results').append(bookItem);
         });
       });
   }
@@ -63,26 +64,18 @@ const handleSearch = () => {
 const createAlarm = (id, title, publishedDate) => {
   alert(`A new notification was created for ${title} coming out ${publishedDate}`);
   chrome.alarms.create(id, {when: Date.parse(publishedDate)});
-
-  console.log("----Get All Alarms----");
-  chrome.alarms.getAll(function(alarms){
-    console.log(alarms);
-  });
 };
 
 //saves book info to chrome storage for the watch list
 const saveToWatchList = (id, title, publishedDate, coverImage) => {
-  //console.log(id, title, publishedDate, coverImage);
   chrome.storage.sync.set({[id]: { title, publishedDate, coverImage }});
 };
 
 // displays the user's watch list when they click on 'My Watch List'
 const displayWatchList = () => {
   chrome.storage.sync.get(null, function (result) {
-    // console.log(result);
-    //console.log(Object.entries(result));
-
-    $('#content').empty();
+    $('#results').empty();
+    $('#myBooks').empty();
 
     const booksArray = Object.entries(result);
 
@@ -108,21 +101,24 @@ const displayWatchList = () => {
         + '</div>'
       ;
 
-      $('#content').append(bookListTemplate);
+      $('#myBooks').append(bookListTemplate);
     });
   });
 };
 
-//removes book obj from chrome storage 
+//delete a book from the watch list by removing it from chrome storage & CASCADE delete alarm 
 const removeFromWatchList = (id) => {
-  //remove item from chrome storage
-  //chrome.storage.sync.remove(string of the key to remove - id, callback);
+  chrome.storage.sync.remove(id, displayWatchList);
+  chrome.alarms.clear(id);
 };
 
 $(document).ready(function () {
+  $('#watchList').click(displayWatchList);
+
   $('#searchForm').submit(handleSearch);
 
-  $('#content').on('click', 'button', function (event) {
+  $('#results').on('click', 'button', function (e) {
+    e.preventDefault();
     const publishedDate = $(this).data('published'),
           title         = $(this).data('title'),
           id            = $(this).data('id'),
@@ -132,8 +128,10 @@ $(document).ready(function () {
     saveToWatchList(id, title, publishedDate, coverImage);
   });
 
-  $('#watchList').click(function () {
-    displayWatchList();
+  $('#myBooks').on('click', 'button', function (e) {
+    e.preventDefault();
+    const id = $(this).data('id');
+    removeFromWatchList(id.toString());
   });
 
   return false; 
