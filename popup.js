@@ -1,3 +1,9 @@
+//filter year-month-date to month
+const filterDate = function (dateStr) {
+  let date = new Date(dateStr);
+  return date.toLocaleDateString();
+};
+
 const buildBookItemTemplate = function (coverImage, title, publishedDate, id) {
   const template = 
       '<div class="book">'
@@ -39,9 +45,11 @@ const handleSearch = function () {
           const id = item.id,
                 title = item.volumeInfo.title,
                 authors = item.volumeInfo.authors, 
-                publishedDate = item.volumeInfo.publishedDate,
+                publishedDate = filterDate(item.volumeInfo.publishedDate),
                 imageLinks = item.volumeInfo.imageLinks,
                 coverImage = imageLinks !== undefined ? imageLinks.thumbnail : 'notebook.png';
+
+  console.log(publishedDate);
 
           let bookItem = buildBookItemTemplate(coverImage, title, publishedDate, id);
            $('#content').append(bookItem);
@@ -123,8 +131,6 @@ $(document).ready(function () {
   $('#watchList').click(function () {
     displayWatchList();
   });
-
-
 
   return false; 
 });
