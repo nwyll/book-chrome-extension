@@ -1,27 +1,27 @@
 .container {
-  margin: 10px;
-  overflow: scroll;
-  width: 300px;
-  height: 350px;
+    margin: 10px;
+    overflow: scroll;
+    width: 300px;
+    height: 350px;
 }
 
 .book-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 150px;
-    margin: auto;
+    margin: 25px auto;
     text-align: center;
 }
 
-.pubished-date {
-  margin-top: 5px;
-  margin-bottom: 0;
+.publish-date {
+    margin-top: 5px;
+    margin-bottom: 0;
 }
 
 .author {
     color: grey;
     font-size: 14px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .add-to-list {
@@ -38,18 +38,28 @@
 }
 
 .remove-from-list {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: red;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: rgb(255, 83, 83);
+    background-color: rgb(199, 196, 196);
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
 }
 
 button:hover {
     opacity: 0.7;
+}
+
+#watchList {
+    font-size: 18px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+}
+
+#query {
+    width: 78%;
 }

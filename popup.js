@@ -7,11 +7,11 @@ const filterDate = (dateStr) => {
 const buildBookItemTemplate = (id, title, author, publishedDate, coverImage) => {
   const template = 
       '<div class="book-card">'
-    + `  <img src=${coverImage} alt="${title}" style="width:100%">`
-    + `  <h4>Coming: ${filterDate(publishedDate)}</h4>`
+    + `  <img src=${coverImage} alt="${title}" title="${title}" style="width:90%">`
+    + `  <h4 class="publish-date">Coming: ${filterDate(publishedDate)}</h4>`
     + `  <p class="author">By: ${author}</p>`
     + '   <form>'
-    + '     Remind Me On'
+    + '     Remind Me On:'
     + `     <input type="date" name="alarmDate" value=${publishedDate}>`
     + '   </form>'
     + `   <p><button type="button"
@@ -67,7 +67,7 @@ console.log(items);
 
 //creates new chrome alarm when a new book is added to the watch list
 const createAlarm = (id, title, alarmDate) => {
-  alert(`A new notification was created for ${title} on ${filterDate(alarmDate)}`);
+  alert(`A new notification was created for ${title} on ${filterDate(alarmDate)}.`);
   chrome.alarms.create(id, {when: Date.parse(alarmDate)});
 };
 
@@ -87,15 +87,13 @@ const displayWatchList = () => {
     booksArray.map((subArray) => {
       const id = subArray[0],             
             title = subArray[1].title,
-            author = subArray[1].author
             publishedDate = subArray[1].publishedDate,
             coverImage = subArray[1].coverImage;
 
       let bookItem = 
           '  <div class="book-card">'
-        + `  <img src=${coverImage} alt=${title} style="width:100%">`
-        + `  <h4>Coming: ${filterDate(publishedDate)}</h4>`
-        + `  <p class="author">By: ${author}</p>`
+        + `  <img src=${coverImage} alt="${title}" title="${title}" style="width:90%">`
+        + `  <h4 class="publish-date">Coming: ${filterDate(publishedDate)}</h4>`
         + `   <p><button type="button"
                     class="remove-from-list"
                     data-id=${id}>Remove
