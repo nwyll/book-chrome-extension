@@ -8,7 +8,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     const options = {
       type: 'basic',
       title: bookObj.title,
-      message: `Don't forget ${bookObj.title} comes out TODAY!`,
+      message: `Don't forget ${bookObj.title} comes out on ${bookObj.publishedDate}!`,
       iconUrl: 'search32.png'
     };
 

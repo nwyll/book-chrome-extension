@@ -5,12 +5,51 @@
   height: 350px;
 }
 
-.book-item {
-  display: flex;
-  justify-content: space-between;
+.book-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 140px;
+    margin: auto;
+    text-align: center;
 }
 
-.watch-list-cover {
-  width: 64px;
-  height: 95px;
+.pubished-date {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.author {
+    color: grey;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.add-to-list {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.remove-from-list {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: red;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+button:hover {
+    opacity: 0.7;
 }
