@@ -4,25 +4,6 @@ const filterDate = (dateStr) => {
   return date.toLocaleDateString();
 };
 
-//build book tile template for search results
-// const buildBookItemTemplate = (coverImage, title, publishedDate, id) => {
-//   const template = 
-//       '<div class="book">'
-//     + `   <img src=${coverImage} alt="${title}" class="cover-img"/>`
-//     + `   <h5 class="published-date">${publishedDate}</h5>`
-//     + `   <button type="button"
-//             class="add-to-list" 
-//             data-title="${title}" 
-//             data-published=${publishedDate}
-//             data-id=${id}
-//             data-cover=${coverImage}>Add To Watch List
-//           </button>`
-//     + '</div>'
-//   ;
-
-//   return template; 
-// }
-
 const buildBookItemTemplate = (id, title, author, publishedDate, coverImage) => {
   const template = 
       '<div class="book-card">'
@@ -85,9 +66,9 @@ console.log(items);
 };
 
 //creates new chrome alarm when a new book is added to the watch list
-const createAlarm = (id, title, publishedDate) => {
-  alert(`A new notification was created for ${title} coming out ${filterDate(publishedDate)}`);
-  chrome.alarms.create(id, {when: Date.parse(publishedDate)});
+const createAlarm = (id, title, alarmDate) => {
+  alert(`A new notification was created for ${title} on ${filterDate(alarmDate)}`);
+  chrome.alarms.create(id, {when: Date.parse(alarmDate)});
 };
 
 //saves book info to chrome storage for the watch list
@@ -140,15 +121,18 @@ $(document).ready(function () {
 
   $('#results').on('click', 'button', function (e) {
     e.preventDefault();
+    console.log($(this.parentNode.parentNode.children[3].children[0]));
+
     const id            = $(this).data('id'),
           title         = $(this).data('title'),
           author        = $(this).data('author'),
           publishedDate = $(this).data('published'),
           coverImage    = $(this).data('cover');
 
-    //get new date value from user - grabbing value from first tile not button clicked
-    const alarmDate = $('[name=alarmDate]').val();  
-    //console.log($('[name=alarmDate]'));
+    //get new date value from user 
+    //there has to be a better way
+    const inputElement = $(this.parentNode.parentNode.children[3].children[0]);
+    const alarmDate = inputElement[0].value; 
     
     createAlarm(id, title, alarmDate);
     saveToWatchList(id, title, author, publishedDate, coverImage);

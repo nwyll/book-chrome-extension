@@ -7,7 +7,7 @@
 
 .book-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 140px;
+    max-width: 150px;
     margin: auto;
     text-align: center;
 }
@@ -34,7 +34,7 @@
     text-align: center;
     cursor: pointer;
     width: 100%;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .remove-from-list {
@@ -47,7 +47,7 @@
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 button:hover {
