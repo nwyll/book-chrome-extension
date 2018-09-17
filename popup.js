@@ -4,6 +4,7 @@ const filterDate = (dateStr) => {
   return date.toLocaleDateString();
 };
 
+//creates a book tile for each result 
 const buildBookItemTemplate = (id, title, author, publishedDate, coverImage) => {
   const template = 
       '<div class="book-card">'
@@ -12,7 +13,7 @@ const buildBookItemTemplate = (id, title, author, publishedDate, coverImage) => 
     + `  <p class="author">By: ${author}</p>`
     + '   <form>'
     + '     Remind Me On:'
-    + `     <input type="date" name="alarmDate" value=${publishedDate}>`
+    + `     <input type="date" id=${id} name="alarmDate" value=${publishedDate}>`
     + '   </form>'
     + `   <p><button type="button"
                 class="add-to-list"
@@ -46,9 +47,6 @@ const handleSearch = () => {
       .then(json => {
         let { items } = json;
 
-console.log("----Items Returned From Google Books API----");
-console.log(items);
-      
         items.map((item) => {
           const id = item.id,
                 title = item.volumeInfo.title,
@@ -119,13 +117,14 @@ $(document).ready(function () {
 
   $('#results').on('click', 'button', function (e) {
     e.preventDefault();
-    console.log($(this.parentNode.parentNode.children[3].children[0]));
-
+  
     const id            = $(this).data('id'),
           title         = $(this).data('title'),
           author        = $(this).data('author'),
           publishedDate = $(this).data('published'),
           coverImage    = $(this).data('cover');
+
+    const userInputDate = $(['alarmDate']).val();
 
     //get new date value from user 
     //there has to be a better way

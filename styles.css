@@ -1,7 +1,7 @@
 .container {
     margin: 10px;
     overflow: scroll;
-    width: 300px;
+    width: 250px;
     height: 350px;
 }
 
@@ -61,5 +61,5 @@ button:hover {
 }
 
 #query {
-    width: 78%;
+    width: 65%;
 }
