@@ -20,4 +20,4 @@ After making changes to your local project, navigate back to the extension manag
 
 ## License
 
-Book Watch is published under [MIT license](LICENSE).
+Book Watch is published under the MIT license.
