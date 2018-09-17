@@ -1,7 +1,7 @@
 chrome.alarms.onAlarm.addListener(function (alarm) {
   const id = alarm.name;
   
-  //retrieve book info from storage
+  //retrieve book info from user's Chrome Storage
   chrome.storage.sync.get(id, function (result) {
     const bookObj = result[id];
   
@@ -19,9 +19,10 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
       iconUrl: 'search32.png'
     };
 
+    //when alarm fires, a pop-up noticication is created with above options and displayed to the user
     chrome.notifications.create(options);
 
-    //delete book from storage
+    //delete book from storage (& subsequently the watch list) after an alarm has fired
     chrome.storage.sync.remove(id);
   });
 });
