@@ -168,11 +168,8 @@ $(document).ready(function () {
           publishedDate = $(this).data('published'),
           coverImage    = $(this).data('cover');
 
-    const userInputDate = $(['alarmDate']).val();
-
-    //gets new date value from user; there has to be a better way
-    const inputElement = $(this.parentNode.parentNode.children[3].children[0]);
-    const alarmDate = inputElement[0].value; 
+    //get date from user using book id
+    const alarmDate = $('#' + id).val();
     
     createAlarm(id, title, alarmDate);
     saveToWatchList(id, title, author, publishedDate, coverImage);
